@@ -1,0 +1,8 @@
+name: Maze
+main: me.MnomisC.Maze.Maze
+version: 1.0
+description: >
+            PVP Maze
+commands:
+  maze:
+    description: Default maze command
