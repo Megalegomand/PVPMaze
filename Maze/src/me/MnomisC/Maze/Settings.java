@@ -15,7 +15,7 @@ public class Settings {
 	public FileConfiguration data;
 
 	public Settings(Maze plugin) {
-		
+
 		this.plugin = plugin;
 	}
 
@@ -24,8 +24,12 @@ public class Settings {
 		configFile = new File(this.plugin.getDataFolder(), "config.yml");
 		dataFile = new File(this.plugin.getDataFolder(), "data.yml");
 
-		this.plugin.saveResource("config.yml", false);
-		this.plugin.saveResource("data.yml", false);
+		if (!configFile.exists()) {
+			this.plugin.saveResource("config.yml", false);
+		}
+		if (!dataFile.exists()) {
+			this.plugin.saveResource("data.yml", false);
+		}
 
 		config = new YamlConfiguration();
 		data = new YamlConfiguration();

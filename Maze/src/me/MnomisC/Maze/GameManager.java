@@ -2,6 +2,7 @@ package me.MnomisC.Maze;
 
 import java.util.ArrayList;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class GameManager {
@@ -19,8 +20,9 @@ public class GameManager {
 	
 	public void intializeGames() {
 		boolean moreGames = data.contains("Games.1");
-		int number = 2;
+		int number = 1;
 		while(moreGames) {
+			System.out.println(number);
 			int length, width, x, y, z;
 			length = data.getInt("Games." + number + "length");
 			width = data.getInt("Games." + number + "width");
@@ -32,6 +34,11 @@ public class GameManager {
 				games.add(game);
 			}
 			number++;
+			moreGames = data.contains("Games." + number);
+		}
+		
+		for(int i = 0; i < games.get(0).getCells().size(); i++)  {
+			games.get(0).getCells().get(i).getBlock().setType(Material.GOLD_BLOCK);
 		}
 	}
 }

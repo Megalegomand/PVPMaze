@@ -51,6 +51,14 @@ public class Game {
 		
 		ArrayList<Location> cells = new ArrayList<Location>();
 		
+		for(int x = this.x; x < length + this.x; x = x+2) {
+			for(int z = this.z; z < width + this.z; z = z+2) {
+				
+				Location loc = new Location(Bukkit.getWorld("world"), x, this.y, z);
+				cells.add(loc);
+			}
+		}
+		
 		return cells;
 	}
 

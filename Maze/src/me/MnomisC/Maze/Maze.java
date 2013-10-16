@@ -24,6 +24,7 @@ public class Maze extends JavaPlugin {
 		settings.initializeFiles();
 		settings.load();
 		gm = new GameManager(this);
+		gm.intializeGames();
 		pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(new BukkitListener(this), this);
 	}
@@ -36,34 +37,40 @@ public class Maze extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
 		ArrayList<Game> games = gm.games;
-		if (args[0].equalsIgnoreCase("join")) {
-			if (args.length > 1) {
-				if (Integer.parseInt(args[1]) < games.size() && Integer.parseInt(args[1]) >= 0) {
-					for (int i = 0; i < games.size(); i++) {
-						if (games.get(i).getPlayerList().contains((Player) sender)) {
-							sendMessage((Player) sender, ChatColor.RED
-							        + "You are allready in a game!");
-							return true;
+		if (args.length >= 1) {
+			if (args[0].equalsIgnoreCase("join")) {
+				if (args.length > 1) {
+					if (Integer.parseInt(args[1]) < games.size() && Integer.parseInt(args[1]) >= 0) {
+						for (int i = 0; i < games.size(); i++) {
+							if (games.get(i).getPlayerList().contains((Player) sender)) {
+								sendMessage((Player) sender, ChatColor.RED
+								        + "You are allready in a game!");
+								return true;
+							}
 						}
+					} else {
+
+						sendMessage((Player) sender, ChatColor.RED
+						        + "Not an arena! Type /maze arenas To see avible arenas");
+						return true;
 					}
+
+					games.get(Integer.parseInt(args[1])).add((Player) sender);
+					sendMessage(sender, ChatColor.GREEN + "Succesfully joined game");
+					return true;
 				} else {
-					
-					sendMessage((Player) sender, ChatColor.RED + "Not an arena! Type /maze arenas To see avible arenas");
+					sendMessage(sender, ChatColor.RED + "Not a valid agument. /maze join <Arena>");
 					return true;
 				}
-
-				games.get(Integer.parseInt(args[1])).add((Player) sender);
-				sendMessage((Player) sender, ChatColor.GREEN + "Succesfully joined game");
-			} else {
-				sendMessage((Player) sender, ChatColor.RED
-				        + "Not a valid agument. /maze join <Arena>");
 			}
 		}
+
+		sendMessage(sender, ChatColor.RED + "Not a valid command. Type /maze help");
 
 		return false;
 	}
 
-	public void sendMessage(Player player, String msg) {
+	public void sendMessage(CommandSender player, String msg) {
 
 		player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GOLD + "The Maze" + ChatColor.BLUE
 		        + "] " + ChatColor.GOLD + msg);
